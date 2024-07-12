@@ -1,0 +1,10 @@
+C:\Users\superuser\Desktop\repos\Markie\bin\Debug\Markie.exe.config
+C:\Users\superuser\Desktop\repos\Markie\bin\Debug\Markie.exe
+C:\Users\superuser\Desktop\repos\Markie\bin\Debug\Markie.pdb
+C:\Users\superuser\Desktop\repos\Markie\obj\Debug\Markie.csproj.AssemblyReference.cache
+C:\Users\superuser\Desktop\repos\Markie\obj\Debug\Markie.MNForm.resources
+C:\Users\superuser\Desktop\repos\Markie\obj\Debug\Markie.Properties.Resources.resources
+C:\Users\superuser\Desktop\repos\Markie\obj\Debug\Markie.csproj.GenerateResource.cache
+C:\Users\superuser\Desktop\repos\Markie\obj\Debug\Markie.csproj.CoreCompileInputs.cache
+C:\Users\superuser\Desktop\repos\Markie\obj\Debug\Markie.exe
+C:\Users\superuser\Desktop\repos\Markie\obj\Debug\Markie.pdb
