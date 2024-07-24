@@ -1,11 +1,30 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Markie
 {
     public partial class MNForm : Form
     {
+        #region Interopt2Preload
+        //Interop A-Flag
+        private bool aflag = false;
+
+        [DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
+        private static extern bool SetLayeredWindowAttributes(IntPtr hWnd, int crKey, byte bAlpha, int dwFlags);
+
+        private const int GWL_EXSTYLE = -20;
+        private const int WS_EX_LAYERED = 0x80000;
+        private const int LWA_ALPHA = 0x2;
+        #endregion
+        #region Componets2Preload
         public MNForm()
         {
             InitializeComponent();
@@ -17,11 +36,14 @@ namespace Markie
             ContainBx.MouseDown += new MouseEventHandler(ContextMouseTake);
             TextCN.MouseDown += new MouseEventHandler(ContextMouseTake);
             ContainBx.SizeMode = PictureBoxSizeMode.Zoom;
+            TextCN.Dock = DockStyle.Fill;
             TextCN.Visible = false;
 
             ContainBx.Image = Bap;
             image = Bap;
         }
+        #endregion
+        #region BitmapVariable
         private Bitmap Bap
         {
             get
@@ -31,6 +53,7 @@ namespace Markie
                 return bmp;
             }
         }
+        #endregion
         #region Key&MouseControls
         private Image image;
         private void SetControlV(object sender, KeyEventArgs e)
@@ -67,15 +90,8 @@ namespace Markie
                 ContainBx.Top = this.ClientSize.Height - ContainBx.Height;
             }
 
-            //TEXT Container
-            if (TextCN.Right > this.ClientSize.Width)
-            {
-                TextCN.Left = this.ClientSize.Width - TextCN.Width;
-            }
-            if (TextCN.Bottom > this.ClientSize.Height)
-            {
-                TextCN.Top = this.ClientSize.Height - TextCN.Height;
-            }
+            //TXT Container
+            TextCN.Size = this.ClientSize;
         }
         #endregion
         #region ImageSetScaler
@@ -186,7 +202,44 @@ namespace Markie
                 ContainBx.Visible = true;
             }
         }
+        private void DarkThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.BackColor = Color.FromArgb(40, 40, 40);
+            TextCN.BackColor = Color.FromArgb(40, 40, 40);
+            TextCN.ForeColor = Color.FromArgb(200,200,200);
+        }
+        private void LightThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.BackColor = SystemColors.Control;
+            TextCN.BackColor = SystemColors.Window;
+            TextCN.ForeColor = SystemColors.WindowText;
+        }
+        private void InvisibleThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!aflag)
+            {
+                SetWindowLong(this.Handle, GWL_EXSTYLE, GetWindowLong(this.Handle, GWL_EXSTYLE) | WS_EX_LAYERED);
+                SetLayeredWindowAttributes(this.Handle, 0, 150, LWA_ALPHA);
+                aflag = true;
+            }
+            else
+            {
+                SetWindowLong(this.Handle, GWL_EXSTYLE, GetWindowLong(this.Handle, GWL_EXSTYLE) | WS_EX_LAYERED);
+                SetLayeredWindowAttributes(this.Handle, 0, 255, LWA_ALPHA);
+                aflag = false;
+            }
+        }
+        private void TopMostToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.TopMost)
+            {
+                this.TopMost = false;
+            }
+            else
+            {
+                this.TopMost = true;
+            }
+        }
         #endregion
-
     }
 }
